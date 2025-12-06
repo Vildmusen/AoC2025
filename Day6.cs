@@ -46,6 +46,7 @@ public static class Day6
     public static void Part2(string[] input)
     {
         long sum = 0;
+        var allSums = new List<long>();
         var currentNums = new List<long>();
 
         for (int i = input[0].Length - 1; i >= 0; i--)
@@ -65,31 +66,31 @@ public static class Day6
                 if (current == '+' || current == '*')
                 {
                     op = current;
+                    break;
                 }
-                else
-                {
-                    currentNum += current;
-                }
-            }
-
-            if (currentNum == "")
-            {
-                continue;
+                
+                currentNum += current;
             }
 
             currentNums.Add(long.Parse(currentNum.Trim()));
 
             if (op != null)
             {
-                sum += op == '+' ?
-                    currentNums.Aggregate((a, b) => a + b) :
-                    currentNums.Aggregate((a, b) => a * b);
+                if (op == '+')
+                {
+                    allSums.AddRange(currentNums);
+                }
+                else
+                {
+                    allSums.Add(currentNums.Aggregate((a, b) => a * b));
+                }
 
                 currentNums.Clear();
                 op = null;
+                i--; // because next column is completely blank
             }
         }
 
-        Console.WriteLine(sum);
+        Console.WriteLine(allSums.Sum());
     }
 }
