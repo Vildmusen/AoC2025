@@ -12,15 +12,9 @@ public static class Day6
 
         foreach (var line in input[..^1])
         {
-            var numbers = line
-                .Replace("    ", "   ")
-                .Replace("   ", "  ")
-                .Replace("  ", " ")
-                .Split(" ")
-                .Where(i => i != "")
-                .Select(long.Parse);
+            var numbers = GetAllNumbers(line);
 
-            for (int i = 0; i < numbers.Count(); i++)
+            for (int i = 0; i < numbers.Count; i++)
             {
                 if (i == rows.Count)
                 {
@@ -43,9 +37,31 @@ public static class Day6
         Console.WriteLine(sums.Sum());
     }
 
+    private static List<long> GetAllNumbers(string line)
+    {
+        var numbers = new List<long>();
+        var currentNumber = "";
+
+        for (int i = 0; i < line.Length; i++)
+        {
+            if (line[i] == ' ' && currentNumber.Trim() != "")
+            {
+                numbers.Add(long.Parse(currentNumber));
+                currentNumber = "";
+            }
+            else
+            {
+                currentNumber += line[i];
+            }
+        }
+
+        numbers.Add(long.Parse(currentNumber));
+
+        return numbers;
+    }
+
     public static void Part2(string[] input)
     {
-        long sum = 0;
         var allSums = new List<long>();
         var currentNums = new List<long>();
 
