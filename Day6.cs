@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-
 public static class Day6
 {
     public static void Run(string[] input)
@@ -12,7 +10,7 @@ public static class Day6
     {
         var rows = new List<List<long>>();
 
-        foreach (var line in input.SkipLast(1))
+        foreach (var line in input[..^1])
         {
             var numbers = line
                 .Replace("    ", "   ")
@@ -33,12 +31,8 @@ public static class Day6
             }
         }
 
-        var operators = input
-            .Last()
-            .Replace("    ", "   ")
-            .Replace("   ", "  ")
-            .Replace("  ", " ")
-            .Replace(" ", "");
+        var operators = input[^1]
+            .Where(c => c != ' ');
 
         var sums = operators
             .Select((op, i) => 
