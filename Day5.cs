@@ -19,6 +19,8 @@ public static class Day5
             haw.Add((start, end));
         }
 
+        haw.Sort();
+
         Part1(items, haw);
         Part2(haw);
     }
