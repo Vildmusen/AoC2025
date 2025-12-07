@@ -9,12 +9,12 @@ public static class Day7
     {
         var start = input[0].IndexOf('S');
         List<int> beamos = [start];
-        Dictionary<int, long> ifTheBeamsTookDifferentPathsAndEndedUpOnTheSameIndex = new() { {start, 1L} };
+        Dictionary<int, long> ifTheBeamsTookDifferentPathsAndEndedUpOnTheSameIndexWeShouldStoreTheirTotalValueInHere = new() { {start, 1L} };
         var count = 0;
 
         foreach (var line in input[1..])
         {
-            List<int> splitters = [];
+            HashSet<int> splitters = [];
 
             foreach (var beam in beamos)
             {
@@ -22,15 +22,10 @@ public static class Day7
                 {
                     count++;
 
-                    var left = beam - 1;
-                    var right = beam + 1;
-
-                    splitters.AddRange([left, right]);
-
-                    var toAdd = ifTheBeamsTookDifferentPathsAndEndedUpOnTheSameIndex[beam];
-                    AddOrAddTo(ifTheBeamsTookDifferentPathsAndEndedUpOnTheSameIndex, left, toAdd);
-                    AddOrAddTo(ifTheBeamsTookDifferentPathsAndEndedUpOnTheSameIndex, right, toAdd);
-                    ifTheBeamsTookDifferentPathsAndEndedUpOnTheSameIndex.Remove(beam);
+                    IMAFIRINGMAHLASER(
+                        beam,
+                        splitters, 
+                        ifTheBeamsTookDifferentPathsAndEndedUpOnTheSameIndexWeShouldStoreTheirTotalValueInHere);
                 }
                 else
                 {
@@ -39,23 +34,36 @@ public static class Day7
             }
 
             beamos.Clear();
-            beamos.AddRange(splitters.Distinct());
+            beamos.AddRange(splitters);
             splitters.Clear();
         }
 
         Console.WriteLine(count);
-        Console.WriteLine(ifTheBeamsTookDifferentPathsAndEndedUpOnTheSameIndex.Values.Sum());
+        Console.WriteLine(ifTheBeamsTookDifferentPathsAndEndedUpOnTheSameIndexWeShouldStoreTheirTotalValueInHere.Values.Sum());
     }
 
-    private static void AddOrAddTo(Dictionary<int, long> ifTheBeamsTookDifferentPathsAndEndedUpOnTheSameIndex, int key, long toAdd)
+    private static void IMAFIRINGMAHLASER(
+        int beam,
+        HashSet<int> splitters, 
+        Dictionary<int, long> someDictionary)
     {
-        if (ifTheBeamsTookDifferentPathsAndEndedUpOnTheSameIndex.ContainsKey(key))
+        var left = beam - 1;
+        var right = beam + 1;
+
+        splitters.Add(left);
+        splitters.Add(right);
+
+        var toAdd = someDictionary[beam];
+
+        if (!someDictionary.TryAdd(left, toAdd))
         {
-            ifTheBeamsTookDifferentPathsAndEndedUpOnTheSameIndex[key] += toAdd;
+            someDictionary[left] += toAdd;
         }
-        else
+        if (!someDictionary.TryAdd(right, toAdd))
         {
-            ifTheBeamsTookDifferentPathsAndEndedUpOnTheSameIndex.Add(key, toAdd);
+            someDictionary[right] += toAdd;
         }
+
+        someDictionary.Remove(beam);
     }
 }
