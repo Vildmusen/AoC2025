@@ -4,8 +4,8 @@ using System.Diagnostics;
 var input = File.ReadAllLines("input.txt");
 var sw = Stopwatch.StartNew();
 
-Day4.Run(input);
+Day1.Run(input);
 
 sw.Stop();
 
-Console.WriteLine($"Elapsed: {sw.Elapsed.TotalSeconds} seconds");
+Console.WriteLine($"Elapsed: {sw.Elapsed.Milliseconds} ms");
