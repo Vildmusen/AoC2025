@@ -8,4 +8,4 @@ Day2.Run(input);
 
 sw.Stop();
 
-Console.WriteLine($"Elapsed: {sw.Elapsed.Milliseconds} ms");
+Console.WriteLine($"Elapsed: {sw.Elapsed.TotalMilliseconds} ms");
