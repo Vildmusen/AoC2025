@@ -4,7 +4,7 @@ using System.Diagnostics;
 var input = File.ReadAllLines("input.txt");
 var sw = Stopwatch.StartNew();
 
-Day6.Run(input);
+Day7.Run(input);
 
 sw.Stop();
 
